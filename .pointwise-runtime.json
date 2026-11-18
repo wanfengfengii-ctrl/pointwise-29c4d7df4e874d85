@@ -2,6 +2,6 @@
   "version": 1,
   "kind": "cli",
   "setup": [],
-  "verify": ["python3", "-B", "-m", "unittest", "discover", "-s", "tests"],
-  "demo": ["python3", "-B", "-m", "handoff.workspace", "demo", "examples/q07.json"]
+  "verify": ["python3", "-B", "verify.py"],
+  "demo": ["python3", "-B", "review_cases.py", "demo"]
 }

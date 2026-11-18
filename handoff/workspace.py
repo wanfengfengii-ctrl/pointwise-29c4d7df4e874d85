@@ -17,6 +17,10 @@ from handoff.export import export_shift
 from handoff.publish import publish_shift
 from handoff.read import ShiftReport, read_shift
 from handoff.reports import ensure_report_schema
+from handoff.review.bindings import ensure_review_schema
+from handoff.review.export import export_review_plan
+from handoff.review.publish import publish_review_plan
+from handoff.review.read import read_review_plan
 from intake.receipts import ensure_receipt_schema
 from intake.records import InstrumentRecord
 from intake.register import register_raw
@@ -38,6 +42,7 @@ class ArchiveWorkspace:
                 ensure_calibration_schema(db)
                 ensure_report_schema(db)
                 ensure_binding_schema(db)
+                ensure_review_schema(db)
         except BaseException:
             db.close()
             raise
@@ -86,6 +91,23 @@ class ArchiveWorkspace:
 
     def export_shift(self, shift_id: str) -> str:
         return export_shift(self._db, shift_id)
+
+    def publish_review_plan(
+        self,
+        plan_id: str,
+        shift_ids,
+        max_segments: int,
+        max_samples: int,
+    ) -> dict:
+        return publish_review_plan(
+            self._db, plan_id, shift_ids, max_segments, max_samples
+        )
+
+    def read_review_plan(self, plan_id: str) -> dict:
+        return read_review_plan(self._db, plan_id)
+
+    def export_review_plan(self, plan_id: str) -> str:
+        return export_review_plan(self._db, plan_id)
 
 
 def open_workspace(database: str | PathLike[str]) -> ArchiveWorkspace:

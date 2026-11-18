@@ -1,8 +1,7 @@
-from decimal import Decimal
 from fractions import Fraction
-import json
 import sqlite3
 
+from handoff.jsonio import deterministic_json
 from handoff.read import read_shift
 
 
@@ -10,18 +9,6 @@ def _fraction_object(value: Fraction | None) -> dict[str, int] | None:
     if value is None:
         return None
     return {'numerator': value.numerator, 'denominator': value.denominator}
-
-
-def _encode_json(value: object) -> str:
-    # Decimal(int) provides all digits without changing the interpreter's int limit.
-    if type(value) is int:
-        return str(Decimal(value))
-    if isinstance(value, dict):
-        members = (json.dumps(key) + ':' + _encode_json(item) for key, item in value.items())
-        return '{' + ','.join(members) + '}'
-    if isinstance(value, list):
-        return '[' + ','.join(_encode_json(item) for item in value) + ']'
-    return json.dumps(value, ensure_ascii=True, separators=(',', ':'))
 
 
 def export_shift(db: sqlite3.Connection, shift_id: str) -> str:
@@ -54,4 +41,4 @@ def export_shift(db: sqlite3.Connection, shift_id: str) -> str:
             for point in report.anomalies
         ],
     }
-    return _encode_json(payload)
+    return deterministic_json(payload)
