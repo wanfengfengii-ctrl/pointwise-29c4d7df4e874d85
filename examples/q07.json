@@ -1,0 +1,22 @@
+{
+  "original": {
+    "source_id": "R1",
+    "trace_id": "Q07",
+    "channel": "垂向",
+    "sample_rate": 3,
+    "declared_length": 3,
+    "counts": [-2, 0, 4]
+  },
+  "correction": {
+    "source_id": "R2",
+    "trace_id": "Q07",
+    "channel": "垂向",
+    "sample_rate": 3,
+    "declared_length": 3,
+    "counts": [-4, 0, 2]
+  },
+  "calibration": {"channel": "垂向", "scale": "1/2", "offset": "1"},
+  "window": [0, 3],
+  "limits": ["0", "2"],
+  "shift_ids": ["S1", "S2"]
+}
